@@ -16,9 +16,8 @@ When filename should start with some string
 
 >/var/www/images/../../../../../etc/passwd
 
-
-
-
+When server URL-decode of the input before using it.
+>..%252f..%252f..%252fetc/passwd
 
 
 
