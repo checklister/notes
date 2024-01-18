@@ -1,0 +1,2 @@
+HTTP request smuggling - writing one request so that the server thinks that it is 2 different.
+It uses 2 headers. `Content-Length: x` and `Transfer-Encoding: chunked`. *It works only in HTTTP/1.1*.
