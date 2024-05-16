@@ -297,3 +297,5 @@ Use registered domain
 
 Url encode once/twice
 >http://%65vil.com
+
+Compilance: use http:/evil@original.com/admin/delete - bypass. Then http:/evil#@original.com/admin/delete - not bypass. Then url encode '#' and get >http://localhost%23@stock.weliketoshop.net/admin/delete
