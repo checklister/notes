@@ -276,6 +276,9 @@ Transfer-Encoding
 *Blacklist*
 Change 127.0.0.1 for 
 >127.1
+
 >017700000001
+
 >2130706433
+
 >spoofed.burpcollaborator.net
