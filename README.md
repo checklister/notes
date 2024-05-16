@@ -282,3 +282,18 @@ Change 127.0.0.1 for
 >2130706433
 
 >spoofed.burpcollaborator.net
+
+Also use /aDmin and other variants
+
+*Whitelist*
+Use original host as login:
+>http://original:pass@evil.com
+
+Use original host as archor #
+>http://evil.com#original
+
+Use registered domain
+>http://original.evil.com
+
+Url encode once/twice
+>http://%65vil.com
